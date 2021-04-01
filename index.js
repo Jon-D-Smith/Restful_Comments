@@ -29,11 +29,20 @@ const comments = [
         comment: "Me Herbert"
     }
 ]
-
+//Load initial index page with fake comments
 app.get('/comments', (req, res) => {
     res.render('comments/index', { comments });
 })
-
+//Load the form page to add a new comment
+app.get('/comments/new', (req, res) => {
+    res.render('comments/new');
+})
+//Post route to get data, push it to the fake comments array, then redirect to the index view
+app.post('/comments', (req, res) => {
+    const { username, comment } = req.body;
+    comments.push({ username, comment })
+    res.redirect('/comments')
+})
 
 app.listen(port, () => {
     console.log(`Connected on port ${port}`)
