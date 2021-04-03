@@ -57,6 +57,15 @@ app.get('/comments/:id', (req, res) => {
     res.render('comments/show', { comment })
 })
 
+//Edit patch Route
+app.patch('comments/:id', (req, res) => {
+    const { id } = req.params;
+    const newCommentText = req.body.comment;
+    const foundComment = comments.find(c => c.id === id);
+    foundComment.comment = newCommentText;
+    red.redirect('/comments')
+})
+
 app.listen(port, () => {
     console.log(`Connected on port ${port}`)
 })
