@@ -3,12 +3,14 @@ const app = express();
 const port = 3000;
 const path = require('path')
 const { v4: uuid } = require('uuid');
+const methodOverride = require('method-override');
 
-app.use(express.urlencoded({ extended: true }))
-app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(methodOverride('_method'));
 
-app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'ejs')
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
 
 //Fake DB
@@ -57,13 +59,20 @@ app.get('/comments/:id', (req, res) => {
     res.render('comments/show', { comment })
 })
 
+//Edit Get route (Form route)
+app.get('/comments/:id/edit', (req, res) => {
+    const { id } = req.params;
+    const comment = comments.find(c => c.id === id);
+    res.render('comments/edit', { comment })
+})
+
 //Edit patch Route
-app.patch('comments/:id', (req, res) => {
+app.patch('/comments/:id', (req, res) => {
     const { id } = req.params;
     const newCommentText = req.body.comment;
     const foundComment = comments.find(c => c.id === id);
     foundComment.comment = newCommentText;
-    red.redirect('/comments')
+    res.redirect('/comments')
 })
 
 app.listen(port, () => {
