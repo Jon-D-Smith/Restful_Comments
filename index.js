@@ -13,18 +13,22 @@ app.set('view engine', 'ejs')
 //Fake DB
 const comments = [
     {
+        id: 1,
         username: "Todd",
         comment: "Lol ThaT IS SO FUNNY"
     },
     {
+        id: 2,
         username: "Jon",
         comment: "I mean, it was kinda funny"
     },
     {
+        id: 3,
         username: "Cody",
         comment: "Not funny. Definitely not funny."
     },
     {
+        id: 4,
         username: "Bert",
         comment: "Me Herbert"
     }
@@ -42,6 +46,14 @@ app.post('/comments', (req, res) => {
     const { username, comment } = req.body;
     comments.push({ username, comment })
     res.redirect('/comments')
+})
+
+//Show/Detail route
+
+app.get('/comments/:id', (req, res) => {
+    const { id } = req.params;
+    const comment = comments.find(c => c.id === parseInt(id));
+    res.render('comments/show', { comment })
 })
 
 app.listen(port, () => {
