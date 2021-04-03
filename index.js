@@ -14,7 +14,7 @@ app.set('view engine', 'ejs');
 
 
 //Fake DB
-const comments = [
+let comments = [
     {
         id: uuid(),
         username: "Todd",
@@ -73,6 +73,14 @@ app.patch('/comments/:id', (req, res) => {
     const foundComment = comments.find(c => c.id === id);
     foundComment.comment = newCommentText;
     res.redirect('/comments')
+})
+
+//Comment Delete Route
+app.delete('/comments/:id', (req, res) => {
+    const { id } = req.params;
+    comments = comments.filter(c => c.id != id);
+    res.redirect('/comments')
+
 })
 
 app.listen(port, () => {
